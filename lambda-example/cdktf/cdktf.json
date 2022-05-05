@@ -1,0 +1,13 @@
+{
+  "language": "csharp",
+  "app": "dotnet run --project MyTerraformStack.csproj",
+  "projectId": "64db6dca-6335-460d-add0-04ebd51922da",
+  "terraformProviders": [
+    "hashicorp/random@~> 3.1.0"
+  ],
+  "terraformModules": [],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
+  }
+}
