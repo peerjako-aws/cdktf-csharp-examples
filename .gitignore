@@ -410,3 +410,4 @@ ASALocalRun/
 !lambda-hello-name/dist/*
 .DS_Store
 .gen
+.vscode

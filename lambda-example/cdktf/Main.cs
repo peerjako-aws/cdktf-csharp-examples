@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Constructs;
 using HashiCorp.Cdktf;
 using HashiCorp.Cdktf.Providers.Aws;
@@ -77,6 +78,14 @@ namespace MyCompany.MyApp
                 Role = role.Name
             } );
     
+            var lambdaFuncEnv = new LambdaFunctionEnvironment{
+                Variables = new Dictionary<string, string>
+                {
+                    {"table", "dyndb123"}
+                }
+            };
+
+
             // Create Lambda function
             LambdaFunction lambdaFunc = new LambdaFunction(this, "learn-cdktf-lambda", new LambdaFunctionConfig{
                 FunctionName = "learn-cdktf-" + pet.Id,
@@ -84,7 +93,8 @@ namespace MyCompany.MyApp
                 S3Key = lambdaArchive.Key,
                 Handler = config.Handler,
                 Runtime = config.RunTime,
-                Role = role.Arn
+                Role = role.Arn,
+                Environment = lambdaFuncEnv
             });
 
             // Create and configure API gateway
