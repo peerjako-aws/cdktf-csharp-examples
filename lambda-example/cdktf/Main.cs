@@ -1,7 +1,8 @@
 using System;
-using System.Collections.Generic;
 using Constructs;
 using HashiCorp.Cdktf;
+
+using System.Collections.Generic;
 using HashiCorp.Cdktf.Providers.Aws;
 using HashiCorp.Cdktf.Providers.Aws.S3;
 using HashiCorp.Cdktf.Providers.Aws.Iam;
@@ -26,7 +27,7 @@ namespace MyCompany.MyApp
         {
             // define resources here
             new AwsProvider(this, "aws", new AwsProviderConfig{
-                Region = "eu-west-1"
+                Region = "eu-north-1"
             });
 
             new random.RandomProvider(this, "random");
@@ -35,13 +36,15 @@ namespace MyCompany.MyApp
                 Length = 2
             });
 
+            // Create a Terraform asset as zip archive from the path to the dist folder
             TerraformAsset asset = new TerraformAsset(this, "lambda-asset", new TerraformAssetConfig{
                 Path = config.Path,
                 Type = AssetType.ARCHIVE
             });
 
+            // Create an S3 bucket to store our Lambda source code
             S3Bucket bucket = new S3Bucket(this, "bucket", new S3BucketConfig{
-                BucketPrefix = "learn-cdktf-"
+                BucketPrefix = "lambda-example-cdktf-" + config.StageName + "-"
             });
 
             // Upload Lambda zip file to newly created S3 bucket
@@ -52,7 +55,6 @@ namespace MyCompany.MyApp
             });
 
             // Create Lambda role
-
             var lambdaRolePolicy = @"{
                 ""Version"": ""2012-10-17"",
                 ""Statement"": [
@@ -68,16 +70,17 @@ namespace MyCompany.MyApp
             }";
         
             IamRole role = new IamRole(this, "lambda-exec", new IamRoleConfig{
-                Name = "learn-cdktf-" + pet.Id,
+                Name = "lambda-example-cdktf-" + pet.Id,
                 AssumeRolePolicy = lambdaRolePolicy
             });
 
-            // Add execution role for lambda to write to CloudWatch logs
+            // Add an execution role for lambda to write to CloudWatch logs
             new IamRolePolicyAttachment(this, "lambda-managed-policy", new IamRolePolicyAttachmentConfig {
                 PolicyArn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
                 Role = role.Name
             } );
     
+            // Create a lambda function environment variable
             var lambdaFuncEnv = new LambdaFunctionEnvironment{
                 Variables = new Dictionary<string, string>
                 {
@@ -85,10 +88,9 @@ namespace MyCompany.MyApp
                 }
             };
 
-
             // Create Lambda function
-            LambdaFunction lambdaFunc = new LambdaFunction(this, "learn-cdktf-lambda", new LambdaFunctionConfig{
-                FunctionName = "learn-cdktf-" + pet.Id,
+            LambdaFunction lambdaFunc = new LambdaFunction(this, "lambda-example-cdktf-lambda", new LambdaFunctionConfig{
+                FunctionName = "lambda-example-cdktf-" + pet.Id,
                 S3Bucket = bucket.Bucket,
                 S3Key = lambdaArchive.Key,
                 Handler = config.Handler,
@@ -111,6 +113,7 @@ namespace MyCompany.MyApp
                 SourceArn = api.ExecutionArn + "/*/*"
             });
 
+            // Output the url for the API endpoint
             new TerraformOutput(this, "url", new TerraformOutputConfig{
                 Value = api.ApiEndpoint
             });
@@ -125,7 +128,7 @@ namespace MyCompany.MyApp
                     Handler = "index.handler",
                     RunTime = "nodejs14.x",
                     StageName = "hello-world",
-                    Version = "v0.0.2"
+                    Version = "v0.0.3"
                 }
             ); 
             new LambdaStack(app, "lambda-hello-name", new LambdaFunctionProps
@@ -137,7 +140,6 @@ namespace MyCompany.MyApp
                     Version = "v0.0.1"
                 }
             );
-
 
             app.Synth();
             Console.WriteLine("App synth complete");
