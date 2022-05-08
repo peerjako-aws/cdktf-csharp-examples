@@ -15,25 +15,23 @@ namespace MyCompany.MyApp
         {
             // define resources here
             new AwsProvider(this, "AWS", new AwsProviderConfig { Region = "eu-north-1" });
-
-            new AwsProvider(this, "AWS", new AwsProviderConfig { Region = "eu-north-1" });
             
             Vpc vpc = new Vpc(this, "vpc", new VpcConfig{
                 CidrBlock = "10.0.0.0/16",
-                Tags = new Dictionary<string, string>{{"Name","vpc-ec2-example"}}
+                Tags = new Dictionary<string, string>{{"Name","vpc-ec2-trading-hub"}}
             });
             
             Subnet subnet = new Subnet(this, "subnet", new SubnetConfig{
                 VpcId = vpc.Id,
                 CidrBlock = "10.0.10.0/24",
                 AvailabilityZone = "eu-north-1a",
-                Tags = new Dictionary<string, string>{{"Name","vpc-ec2-example"}}
+                Tags = new Dictionary<string, string>{{"Name","vpc-ec2-trading-hub"}}
             });
 
-            NetworkInterface networkInterface = new NetworkInterface(this, "ec2-network-interface", new NetworkInterfaceConfig{
+            /*NetworkInterface networkInterface = new NetworkInterface(this, "ec2-network-interface", new NetworkInterfaceConfig{
                 SubnetId = subnet.Id,
                 PrivateIp = "10.0.10.100",
-                Tags = new Dictionary<string, string>{{"Name","vpc-ec2-example"}}
+                Tags = new Dictionary<string, string>{{"Name","vpc-ec2-trading-hub"}}
             });
             
             DataAwsAmi latestAmazonLinux2Ami = new DataAwsAmi(this, "latest-ami", new DataAwsAmiConfig{
@@ -42,7 +40,7 @@ namespace MyCompany.MyApp
                 Filter = new DataAwsAmiFilter[]{
                     new DataAwsAmiFilter{
                         Name = "name",
-                        Values = new string[]{"amzn-ami-hvm-*-x86_64-gp2"}
+                        Values = new string[]{"amzn2-ami-hvm-*-x86_64-gp2"}
                     }
                 }
             });
@@ -57,13 +55,13 @@ namespace MyCompany.MyApp
                         NetworkInterfaceId = networkInterface.Id
                     }
                 },
-                Tags = new Dictionary<string, string>{{"Name","vpc-ec2-example"}}
+                Tags = new Dictionary<string, string>{{"Name","vpc-ec2-trading-hub"}}
             });
 
             new TerraformOutput(this, "private_ip", new TerraformOutputConfig
             {
                 Value = instance.PrivateIp
-            });
+            });*/
             
         }
 
