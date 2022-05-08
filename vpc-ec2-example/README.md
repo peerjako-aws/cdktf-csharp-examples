@@ -1,7 +1,3 @@
----
-typora-copy-images-to: ../vpc-ec2-example
----
-
 # VPC with EC2 instance Terraform for CDK example
 
 The Cloud Development Kit for Terraform (CDKTF) allows you to define your infrastructure in a familiar programming language such as TypeScript, Python, Go, C#, or Java.
@@ -44,7 +40,7 @@ dotnet add package HashiCorp.Cdktf.Providers.Aws
 
 In the Cloud9 explorer, navigate to the vpc-ec2-example/Main.cs file to view your application code. The template creates a scaffold with no functionality.
 
-In this example we will be using vpc and ec2 resources so start by adding the following using statements to Main.cs
+In this example we will be using vpc and ec2 resources. We will also need the System.Collections.Generic to use the Dictionary type for our resource tagging. Add the following using statements to Main.cs
 
 ```c#
 using System.Collections.Generic;
@@ -53,7 +49,9 @@ using HashiCorp.Cdktf.Providers.Aws.Ec2;
 using HashiCorp.Cdktf.Providers.Aws.Vpc;
 ```
 
-![image-20220506145937284](images/image-20220506145937284.png)
+Your Main.cs file should now look like this.
+
+![image-20220508190132590](images/image-20220506145937284.png)
 
 Let us configure the AWS provider to use the eu-north-1 region (or whatever favorite region you have) by adding the following line to the MyApp stack part of Main.cs
 
