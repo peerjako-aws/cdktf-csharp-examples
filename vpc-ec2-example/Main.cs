@@ -28,7 +28,7 @@ namespace MyCompany.MyApp
                 Tags = new Dictionary<string, string>{{"Name","vpc-ec2-trading-hub"}}
             });
 
-            /*NetworkInterface networkInterface = new NetworkInterface(this, "ec2-network-interface", new NetworkInterfaceConfig{
+            NetworkInterface networkInterface = new NetworkInterface(this, "ec2-network-interface", new NetworkInterfaceConfig{
                 SubnetId = subnet.Id,
                 PrivateIp = "10.0.10.100",
                 Tags = new Dictionary<string, string>{{"Name","vpc-ec2-trading-hub"}}
@@ -61,7 +61,7 @@ namespace MyCompany.MyApp
             new TerraformOutput(this, "private_ip", new TerraformOutputConfig
             {
                 Value = instance.PrivateIp
-            });*/
+            });
             
         }
 

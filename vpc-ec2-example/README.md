@@ -61,6 +61,8 @@ Let us configure the AWS provider to use the eu-north-1 region (or whatever favo
 new AwsProvider(this, "AWS", new AwsProviderConfig { Region = "eu-north-1" });
 ```
 
+## Add a VPC with a private subnet
+
 Lets start creating some infrastructure. First we will add a VPC with a CIDR block of "10.0.0.0/16". Add the following code just after the AwsProvider code-line
 
 ```c#
@@ -100,3 +102,76 @@ cdktf deploy
 If you see "Apply complete! Resources: 2 added, 0 changed, 0 destroyed." then the resources were succesfully create. Go and check your new VPC called "vpc-ec2-trading-hub" in the [AWS console](https://eu-north-1.console.aws.amazon.com/vpc/home#vpcs:).
 
 ![image-20220508182007660](images/image-20220508182007660.png)
+
+## Add an EC2 instance using the latest Amazon Linux2 AMI
+
+Now we want to create an EC2 instance in the private subnet with a specific IP. We want to use the latest Amazon Linux2 AMI in the region. CDK for Terraform supports the same Data concept as regular Terraform and we can therefore get the latest AMI by adding the following code:
+
+```c#
+DataAwsAmi latestAmazonLinux2Ami = new DataAwsAmi(this, "latest-ami", new 	DataAwsAmiConfig{
+    MostRecent = true,
+    Owners = new string[]{"amazon"},
+    Filter = new DataAwsAmiFilter[]{
+        new DataAwsAmiFilter{
+            Name = "name",
+            Values = new string[]{"amzn2-ami-hvm-*-x86_64-gp2"}
+        }
+    }
+});
+```
+
+To find the latest ami we use MostRecent = true, the AMI Owner is amazon (this would be an AccountID like 099720109477 for Ubuntu or your own AWS AccountID if you published your own hardened AMIs). The filter "amzn2-ami-hvm-*-x86_64-gp2" finds the latest Amazon Linux2, with hmv (hardware virtual machine) on an x86_64 architecture using GP2 ssd disk.
+
+Now we add the code that will create a network interface with a private subnet IP and we add the code to create the actual EC2 instance that uses this network interface.
+
+```c#
+NetworkInterface networkInterface = new NetworkInterface(this, "ec2-network-interface", new 	NetworkInterfaceConfig{
+    SubnetId = subnet.Id,
+    PrivateIp = "10.0.10.100",
+    Tags = new Dictionary<string, string>{{"Name","vpc-ec2-trading-hub"}}
+});
+Instance instance = new Instance(this, "compute", new InstanceConfig
+{ 
+    Ami = latestAmazonLinux2Ami.Id,
+    InstanceType = "t3.micro",
+    NetworkInterface = new InstanceNetworkInterface[]{
+        new InstanceNetworkInterface{
+            DeviceIndex = 0,
+            NetworkInterfaceId = networkInterface.Id
+        }
+    },
+    Tags = new Dictionary<string, string>{{"Name","vpc-ec2-trading-hub"}}
+});
+
+```
+
+Lets try to run the cdktf diff command to see what is the difference between what we have in our AWS account
+
+```bash
+cdktf diff
+```
+
+In the output you can see that there are no changes to the VPC and subnet but lots of additions to create the network interface and the EC2 instance.
+
+![image-20220508184021620](images/image-20220508184021620.png)
+
+Now deploy these two new resources using cdktf deploy (remember to hit enter when asked to Approve)
+
+```bash
+cdktf deploy
+```
+
+Once the stack is fully deployed you can see your new EC2 instance in the [AWS console here](https://eu-north-1.console.aws.amazon.com/ec2/v2/home#Instances:instanceState=running).
+
+## Additional tasks
+
+You can either move to the [Serverless example](../lambda-example/README.md) to learn how to deploy Lambda functions fronted by an API GateWay or you can stay in this example and try to add a LoadBalancer, Security Groups and setup the EC2 instance to run user data that installs a webserver.
+
+You can find the documentation for other AWS Provider resources here https://registry.terraform.io/providers/hashicorp/aws/latest/docs
+
+If you want to delete all the resources created in the above example just run the following command
+
+```bash
+cdktf destroy
+```
+
