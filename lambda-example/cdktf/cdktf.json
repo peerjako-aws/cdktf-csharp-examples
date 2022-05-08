@@ -5,7 +5,9 @@
   "terraformProviders": [
     "hashicorp/random@~> 3.1.0"
   ],
-  "terraformModules": [],
+  "terraformModules": [
+    
+  ],
   "context": {
     "excludeStackIdFromLogicalIds": "true",
     "allowSepCharsInLogicalIds": "true"

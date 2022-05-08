@@ -10,4 +10,8 @@
     <PackageReference Include="HashiCorp.Cdktf.Providers.Aws" Version="7.0.46" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include=".gen\sessionmanager\sessionmanager.csproj" />
+  </ItemGroup>
+
 </Project>
