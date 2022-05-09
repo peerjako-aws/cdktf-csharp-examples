@@ -17,7 +17,7 @@ This section assumes you have followed the instructions to get an AWS account an
 
 Cloud9 environments comes with 10 GB disk by default which is too small for our workshop. Increase the disk size to 50GB using the following process:
 
-1. Go to the Cloud9 Environments page in the AWS Console [here](https://eu-north-1.console.aws.amazon.com/cloud9/home) 
+1. Go to the Cloud9 Environments page in the AWS Console [here](https://console.aws.amazon.com/cloud9/home) 
 
 2. Select the environment you want to resize and click "View details" button.
 3. EC2 Instance >> Go To Instance
@@ -99,3 +99,10 @@ If you see a list of cdktf command options after running cdktf help then you sho
 
 In the [first example](/vpc-ec2-example/README.md) you will deploy a VPC network 
 
+## Serverless with Lambda functions and API Gateway
+
+In the [second example](/lambda-example/README.md) you will deploy two serverless stacks based on Lambda and API Gateway
+
+## Build your own architecture
+
+If you are done with the first and second example you can either join one of the other groups to learn about AWS native CDK or you can try to convert an architecture your worked on into a CDK for Terraform application.

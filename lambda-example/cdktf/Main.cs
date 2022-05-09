@@ -44,7 +44,7 @@ namespace MyCompany.MyApp
 
             // Create an S3 bucket to store our Lambda source code
             S3Bucket bucket = new S3Bucket(this, "bucket", new S3BucketConfig{
-                BucketPrefix = "lambda-example-cdktf-" + config.StageName + "-"
+                BucketPrefix = "lambda-example-"
             });
 
             // Upload Lambda zip file to newly created S3 bucket
@@ -70,7 +70,7 @@ namespace MyCompany.MyApp
             }";
         
             IamRole role = new IamRole(this, "lambda-exec", new IamRoleConfig{
-                Name = "lambda-example-cdktf-" + pet.Id,
+                Name = "lambda-example-" + pet.Id,
                 AssumeRolePolicy = lambdaRolePolicy
             });
 
@@ -89,8 +89,8 @@ namespace MyCompany.MyApp
             };
 
             // Create Lambda function
-            LambdaFunction lambdaFunc = new LambdaFunction(this, "lambda-example-cdktf-lambda", new LambdaFunctionConfig{
-                FunctionName = "lambda-example-cdktf-" + pet.Id,
+            LambdaFunction lambdaFunc = new LambdaFunction(this, "lambda-example-lambda", new LambdaFunctionConfig{
+                FunctionName = "lambda-example-" + pet.Id,
                 S3Bucket = bucket.Bucket,
                 S3Key = lambdaArchive.Key,
                 Handler = config.Handler,
@@ -114,7 +114,7 @@ namespace MyCompany.MyApp
             });
 
             // Output the url for the API endpoint
-            new TerraformOutput(this, "url", new TerraformOutputConfig{
+            new TerraformOutput(this, "url-" + config.StageName, new TerraformOutputConfig{
                 Value = api.ApiEndpoint
             });
         }
