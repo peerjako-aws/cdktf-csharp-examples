@@ -12,7 +12,7 @@ Start by creating a directory named vpc-ec2-example for your project
 mkdir vpc-ec2-example
 ```
 
-The navigate into it.
+Then navigate into it.
 
 ```bash
 cd vpc-ec2-example
@@ -56,7 +56,7 @@ Your Main.cs file should now look like this.
 Let us configure the AWS provider to use the eu-north-1 region (or whatever favorite region you have) by adding the following line to the MyApp stack part of Main.cs
 
 ```c#
-new AwsProvider(this, "AWS", new AwsProviderConfig { Region = "eu-north-1" });
+new AwsProvider(this, "AWS", new AwsProviderConfig { Region = "eu-west-1" });
 ```
 
 ## Add a VPC with a private subnet
@@ -75,7 +75,7 @@ We also want a subnet in our VPC where we can deploy our EC2. Add the following 
 Subnet subnet = new Subnet(this, "subnet", new SubnetConfig{
   	VpcId = vpc.Id,
   	CidrBlock = "10.0.10.0/24",
-  	AvailabilityZone = "eu-north-1a",
+  	AvailabilityZone = "eu-west-1a",
   	Tags = new Dictionary<string, string>{{"Name","vpc-ec2-trading-hub"}}
 });
 
