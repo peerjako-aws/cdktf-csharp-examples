@@ -53,7 +53,7 @@ Your Main.cs file should now look like this.
 
 ![image-20220508190132590](images/image-20220506145937284.png)
 
-Let us configure the AWS provider to use the eu-north-1 region (or whatever favorite region you have) by adding the following line to the MyApp stack part of Main.cs
+Let us configure the AWS provider to use the eu-west-1 region by adding the following line to the MyApp stack part of Main.cs
 
 ```c#
 new AwsProvider(this, "AWS", new AwsProviderConfig { Region = "eu-west-1" });
@@ -69,7 +69,7 @@ Vpc vpc = new Vpc(this, "vpc", new VpcConfig{
 });
 ```
 
-We also want a subnet in our VPC where we can deploy our EC2. Add the following code which creates a subnet with CIDR block of "10.0.10.0/24" in the eu-north-1a availability zone (chose another AZ if your region is not eu-north-1)
+We also want a subnet in our VPC where we can deploy our EC2. Add the following code which creates a subnet with CIDR block of "10.0.10.0/24" in the eu-west-1a availability zone (chose another AZ if your region is not eu-west-1)
 
 ```c#
 Subnet subnet = new Subnet(this, "subnet", new SubnetConfig{
@@ -97,7 +97,7 @@ Now we create the VPC and subnet in you AWS account using the cdktf deploy comma
 cdktf deploy
 ```
 
-If you see "Apply complete! Resources: 2 added, 0 changed, 0 destroyed." then the resources were succesfully create. Go and check your new VPC called "vpc-ec2-trading-hub" in the [AWS console](https://eu-north-1.console.aws.amazon.com/vpc/home#vpcs:).
+If you see "Apply complete! Resources: 2 added, 0 changed, 0 destroyed." then the resources were succesfully create. Go and check your new VPC called "vpc-ec2-trading-hub" in the [AWS console](https://console.aws.amazon.com/vpc/home#vpcs:).
 
 ![image-20220508182007660](images/image-20220508182007660.png)
 
@@ -159,7 +159,7 @@ Now deploy these two new resources using cdktf deploy (remember to hit enter whe
 cdktf deploy
 ```
 
-Once the stack is fully deployed you can see your new EC2 instance in the [AWS console here](https://eu-north-1.console.aws.amazon.com/ec2/v2/home#Instances:instanceState=running).
+Once the stack is fully deployed you can see your new EC2 instance in the [AWS console here](https://console.aws.amazon.com/ec2/v2/home#Instances:instanceState=running).
 
 ## Additional tasks
 

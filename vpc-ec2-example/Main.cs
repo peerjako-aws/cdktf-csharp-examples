@@ -14,7 +14,7 @@ namespace MyCompany.MyApp
         public MyApp(Construct scope, string id) : base(scope, id)
         {
             // define resources here
-            new AwsProvider(this, "AWS", new AwsProviderConfig { Region = "eu-north-1" });
+            new AwsProvider(this, "AWS", new AwsProviderConfig { Region = "eu-west-1" });
             
             Vpc vpc = new Vpc(this, "vpc", new VpcConfig{
                 CidrBlock = "10.0.0.0/16",
@@ -24,7 +24,7 @@ namespace MyCompany.MyApp
             Subnet subnet = new Subnet(this, "subnet", new SubnetConfig{
                 VpcId = vpc.Id,
                 CidrBlock = "10.0.10.0/24",
-                AvailabilityZone = "eu-north-1a",
+                AvailabilityZone = "eu-west-1a",
                 Tags = new Dictionary<string, string>{{"Name","vpc-ec2-trading-hub"}}
             });
 
