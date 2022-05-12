@@ -53,7 +53,7 @@ dotnet --info
 
 We will use .net core 6.0 for our applications later in the workshop. .net core 3.1 is needed by Terraform.
 
-### Install CDK for Terraform and deploy some infrastructure to AWS
+### Install CDK for Terraform
 
 Install CDK for Terraform by executing the following command line:
 
