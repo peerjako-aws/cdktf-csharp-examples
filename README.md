@@ -53,28 +53,6 @@ dotnet --info
 
 We will use .net core 6.0 for our applications later in the workshop. .net core 3.1 is needed by Terraform.
 
-### Install Terraform 
-
-We download the latest version of Terraform and install it using the following command lines:
-
-```
-wget https://releases.hashicorp.com/terraform/1.1.9/terraform_1.1.9_linux_amd64.zip
-unzip terraform_1.1.9_linux_amd64.zip
-sudo mv terraform /usr/local/bin
-```
-
-Now login to terraform in the Cloud9 environment using the following command line:
-
-```
-terraform login
-```
-
-Answer yes to the first question and then get your Terraform API token by opening the following URL in your browser:
-https://app.terraform.io/app/settings/tokens?source=terraform-login
-(If you do not have a Terraform account login/password then first create a free account following the instructions in the browser)
-
-Copy the API token from the browser window and paste it into the Cloud9 environment commandline where the previous Terraform login command should be awaiting that token. You will not see the token text on the screen so just hit enter and if the token is accepted you should see a “Welcome to Terraform Cloud!” message.
-
 ### Install CDK for Terraform and deploy some infrastructure to AWS
 
 Install CDK for Terraform by executing the following command line:

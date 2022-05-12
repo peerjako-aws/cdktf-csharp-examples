@@ -65,7 +65,8 @@ Lets start creating some infrastructure. First we will add a VPC with a CIDR blo
 
 ```c#
 Vpc vpc = new Vpc(this, "vpc", new VpcConfig{
-    CidrBlock = "10.0.0.0/16"
+    CidrBlock = "10.0.0.0/16",
+    Tags = new Dictionary<string, string>{{"Name","vpc-ec2-trading-hub"}}
 });
 ```
 
