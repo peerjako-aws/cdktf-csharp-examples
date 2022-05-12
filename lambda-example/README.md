@@ -69,7 +69,7 @@ cdktf init --local --template csharp
 
 If all went well you should see a "Your cdktf csharp project is ready!" message. Accept the defaults for "Project Name" and "Project Description".
 
-## Install AWS provider
+## Install AWS provider and Terraform random provider
 
 CDKTF provides packages with prebuilt classes for several common Terraform providers that you can use in your C# projects. For other Terraform providers and modules, you can add them to `cdktf.json` and use `cdktf get` to [generate the appropriate C# classes](https://www.terraform.io/cdktf/concepts/providers-and-resources#providers).
 
